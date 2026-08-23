@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+int binarySearch(int arr[], int n, int target) {
+    int low = 0, high = n - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == target)
+            return 1;
+
+        if (arr[mid] < target)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+
+    return 0;
+}
+
+int main() {
+    int n, x;
+
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    int S1[n], S2[n];
+
+    printf("Enter S1:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &S1[i]);
+
+    printf("Enter S2:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &S2[i]);
+
+    printf("Enter X: ");
+    scanf("%d", &x);
+
+    qsort(S2, n, sizeof(int), compare);
+
+    for (int i = 0; i < n; i++) {
+        int needed = x - S1[i];
+
+        if (binarySearch(S2, n, needed)) {
+            printf("Pair exists: %d + %d = %d\n",
+                   S1[i], needed, x);
+            return 0;
+        }
+    }
+
+    printf("No such pair exists.\n");
+
+    return 0;
+}
